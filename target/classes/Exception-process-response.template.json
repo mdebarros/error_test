@@ -1,0 +1,17 @@
+{
+	"exception": {
+		"correlationId": "#[json:correlationId]",
+		"httpCode": #[json:httpCode],
+		"exceptionTimestamp": "#[json:exceptionTimestamp]",
+		"exceptionMessage": "#[json:exceptionMessage]",
+		"causes": [
+				{
+					"cause": 
+					{
+						"detail": "#[flowVars.exceptionCause]"
+					}
+
+				}
+			]
+	}
+}

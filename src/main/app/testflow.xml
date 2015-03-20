@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <data-mapper:config name="JSON_To_JSON" transformationGraphPath="json_to_json.grf" doc:name="JSON_To_JSON"/>
+    <expression-filter expression="#[1==blah]" name="Expression" doc:name="Expression"/>
+
+    <flow name="testflowFlow1" doc:name="testflowFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="${http.hostname}" port="${http.port}" doc:name="HTTP" path="en/US/testFlow"/>
+        <set-variable variableName="lang" value="#[message.inboundProperties.'http.query.params'.lang]" doc:name="Variable"/>
+        <set-variable variableName="country" value="#[message.inboundProperties.'http.query.params'.country]" doc:name="Variable"/>
+        <set-variable variableName="exceptionType" value="#[message.inboundProperties.'http.query.params'.exceptiontype]" doc:name="Variable"/>
+        <scripting:component doc:name="GroovyTestScript">
+            <scripting:script engine="Groovy" file="C:\Users\mdebarros\Documents\0.DevNULL\Projects\AnypointStudio\workspaceBVBv1\error_test\src\main\resources\TestException.groovy">
+                <property key="exceptionMessage" value="Here be Dragons!"/>
+                <property key="exceptionType" value="#[flowVars.exceptionType]"/>
+            </scripting:script>
+        </scripting:component>
+
+        <data-mapper:transform config-ref="JSON_To_JSON" doc:name="JSON To JSON"/>
+        
+        <set-payload value="zamo#[message.inboundProperties.'http.method'] #[message.correlationId]" doc:name="Set Payload"/>
+        <exception-strategy ref="Global_Exception_Handler_Strategy" doc:name="Reference Exception Strategy"/>
+    </flow>
+</mule>

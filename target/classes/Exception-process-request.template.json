@@ -1,0 +1,13 @@
+{
+	"processId" : "#[message.id]",
+	"httpVerb" : "#[message.inboundProperties.'http.method'.toLowerCase()]",
+	"entityContext" :"#[flowVars.entityContext]",
+	"exceptionReason" : "#[flowVars.exceptionReason]",
+	"exceptionCode" : "#[flowVars.exceptionCode]",
+	"createLog" : #[flowVars.createLog],
+	"logDetail" :
+	{
+		"application" : "#[flowVars.application]",
+		"userName" : "#[flowVars.userName]"
+	}
+}

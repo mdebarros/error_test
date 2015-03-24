@@ -85,9 +85,9 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         <logger message="exception_handlingFlow::end - #[payload]" level="INFO" doc:name="log-end"/>
     </flow>
     <sub-flow name="exception_handlingFlowCatchTransformer" doc:name="exception_handlingFlowCatchTransformer">
-        <parse-template location="src\main\resources\Exception-process-request.template.json" doc:name="set-request-payload"/>
+        <parse-template location="Exception-process-request.template.json" doc:name="set-request-payload"/>
         <flow-ref name="exception_handlingFlow" doc:name="Flow Reference"/>
-        <parse-template location="src\main\resources\Exception-process-response.template.json" doc:name="set-response-payload"/>
+        <parse-template location="Exception-process-response.template.json" doc:name="set-response-payload"/>
     </sub-flow>
     <sub-flow name="exception_handlingFlowSet-Username-Application-Details" doc:name="exception_handlingFlowSet-Username-Application-Details">
         <set-variable variableName="application" value="BVB ios Mobile" doc:name="set-application"/>

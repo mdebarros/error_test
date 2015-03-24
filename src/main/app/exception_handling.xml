@@ -66,6 +66,17 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
             <flow-ref name="exception_handlingFlowCatchTransformer" doc:name="call-exception-handling-subFlow"/>
             <flow-ref name="exception_handlingFlow-http-exception-handler-response-builder" doc:name="call-set-http-exception-response"/>
         </catch-exception-strategy> -->
+        <catch-exception-strategy when="#[exception.causedBy(java.sql.SQLException)]" doc:name="Catch Exception Strategy: exception.causedBy(java.sql.SQLException)">
+			<logger level="INFO" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: exception.causedExactlyBy(java.sql.SQLException) = #[exception.causedExactlyBy(java.sql.SQLException)]"/>
+			<set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>            <set-variable variableName="entityContext" value="transaction-redshift" doc:name="set-entityContext"/>
+			<set-variable variableName="entityContext" value="transaction" doc:name="set-entityContext"/>
+			<set-variable variableName="exceptionReason" value="processing_DataStoreResultedException" doc:name="set-exceptionReason"/>
+			<set-variable variableName="exceptionCode" value="" doc:name="set-exceptionCode"/>
+			<set-variable variableName="createLog" value="false" doc:name="set-createLog"/>
+			<flow-ref name="exception_handlingFlowSet-Username-Application-Details" doc:name="call-set-username-application-details"/>
+			<flow-ref name="exception_handlingFlowCatchTransformer" doc:name="call-exception-handling-subFlow"/>
+			<flow-ref name="exception_handlingFlow-http-exception-handler-response-builder" doc:name="call-set-http-exception-response"/>
+		</catch-exception-strategy>  
         <catch-exception-strategy doc:name="Catch Exception Strategy::Catch-All">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: Catch-All"/>
             <set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>

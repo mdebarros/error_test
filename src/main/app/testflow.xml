@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         <set-variable variableName="country" value="#[message.inboundProperties.'http.query.params'.country]" doc:name="Variable"/>
         <set-variable variableName="exceptionType" value="#[message.inboundProperties.'http.query.params'.exceptiontype]" doc:name="Variable"/>
         <scripting:component doc:name="GroovyTestScript">
-            <scripting:script engine="Groovy" file="C:\Users\mdebarros\Documents\0.DevNULL\Projects\AnypointStudio\workspaceBVBv1\error_test\src\main\resources\TestException.groovy">
+            <scripting:script engine="Groovy" file="TestException.groovy">
                 <property key="exceptionMessage" value="Here be Dragons!"/>
                 <property key="exceptionType" value="#[flowVars.exceptionType]"/>
             </scripting:script>

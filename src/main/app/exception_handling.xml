@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
     <choice-exception-strategy name="Global_Exception_Handler_Strategy">
         <catch-exception-strategy doc:name="Catch Exception Strategy: exception.causedExactlyBy(java.io.IOException)" when="#[exception.causedExactlyBy(java.io.IOException)]">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: exception.causedBy(java.io.IOException) = #[exception.causedExactlyBy(java.io.IOException)]"/>
-            <set-variable variableName="exceptionCause" value="#[exception.getCause()]" doc:name="set-exception"/>
+            <set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>
             <set-variable variableName="entityContext" value="transaction" doc:name="set-entityContext"/>
             <set-variable variableName="exceptionReason" value="processing_OtherException" doc:name="set-exceptionReason"/>
             <set-variable variableName="exceptionCode" value="" doc:name="set-exceptionCode"/>
@@ -23,7 +23,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         </catch-exception-strategy>
         <catch-exception-strategy when="#[exception.causedExactlyBy(com.mulesoft.mule.module.datamapper.api.exception.DataMapperExecutionException)]" doc:name="Catch Exception Strategy: exception.causedBy(com.mulesoft.mule.module.datamapper.api.exception.DataMapperExecutionException)">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: exception.causedExactlyBy(com.mulesoft.mule.module.datamapper.api.exception.DataMapperExecutionException) = #[exception.causedExactlyBy(com.mulesoft.mule.module.datamapper.api.exception.DataMapperExecutionException)]"/>
-            <set-variable variableName="exceptionCause" value="#[exception.getCause()]" doc:name="set-exception"/>
+            <set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>
             <set-variable variableName="entityContext" value="transaction" doc:name="set-entityContext"/>
             <set-variable variableName="exceptionReason" value="processing_DataTransformationException" doc:name="set-exceptionReason"/>
             <set-variable variableName="exceptionCode" value="" doc:name="set-exceptionCode"/>
@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         </catch-exception-strategy>
         <catch-exception-strategy when="#[exception.causedExactlyBy(javax.validation.ValidationException)]" doc:name="Catch Exception Strategy: exception.causedExactlyBy(javax.validation.ValidationException)">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: exception.causedExactlyBy(javax.validation.ValidationException) = #[exception.causedExactlyBy(javax.validation.ValidationException)]"/>
-            <set-variable variableName="exceptionCause" value="#[exception.getCause()]" doc:name="set-exception"/>
+            <set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>
             <set-variable variableName="entityContext" value="transaction" doc:name="set-entityContext"/>
             <set-variable variableName="exceptionReason" value="processing_MessageValidationException" doc:name="set-exceptionReason"/>
             <set-variable variableName="exceptionCode" value="" doc:name="set-exceptionCode"/>
@@ -45,7 +45,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         </catch-exception-strategy>
         <catch-exception-strategy when="#[exception.causedExactlyBy(java.net.UnknownHostException)]" doc:name="Catch Exception Strategy: exception.causedExactlyBy(java.net.UnknownHostException)">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: exception.causedExactlyBy(java.net.UnknownHostException) = #[exception.causedExactlyBy(java.net.UnknownHostException)]"/>
-            <set-variable variableName="exceptionCause" value="#[exception.getCause()]" doc:name="set-exception"/>
+            <set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>
             <set-variable variableName="entityContext" value="transaction" doc:name="set-entityContext"/>
             <set-variable variableName="exceptionReason" value="processing_ServerUnavailableException" doc:name="set-exceptionReason"/>
             <set-variable variableName="exceptionCode" value="" doc:name="set-exceptionCode"/>
@@ -57,7 +57,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         <!-- 
         <catch-exception-strategy when="#[exception.causedExactlyBy(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException)]" doc:name="Catch_Exception_Strategy: exception.causedExactlyBy(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException)">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: exception.causedExactlyBy(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException) = #[exception.causedExactlyBy(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException)]"/>
-            <set-variable variableName="exceptionCause" value="#[exception.getCause()]" doc:name="set-exception"/>
+            <set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>
             <set-variable variableName="entityContext" value="transaction" doc:name="set-entityContext"/>
             <set-variable variableName="exceptionReason" value="processing_DataStoreResultedException" doc:name="set-exceptionReason"/>
             <set-variable variableName="exceptionCode" value="" doc:name="set-exceptionCode"/>
@@ -68,7 +68,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         </catch-exception-strategy> -->
         <catch-exception-strategy doc:name="Catch Exception Strategy::Catch-All">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: Catch-All"/>
-            <set-variable variableName="exceptionCause" value="#[exception.getCause()]" doc:name="set-exception"/>
+            <set-variable variableName="exceptionCause" value="#[(exception.getCause()!=null)?exception.getCause().toString().replaceAll(${http.api.exception.process.escape.regex},${http.api.exception.process.escape.replace}):'']" doc:name="set-exception"/>
             <set-variable variableName="entityContext" value="transaction" doc:name="set-entityContext"/>
             <set-variable variableName="exceptionReason" value="processing_OtherException" doc:name="set-exceptionReason"/>
             <set-variable variableName="exceptionCode" value="" doc:name="set-exceptionCode"/>

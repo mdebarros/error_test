@@ -9,6 +9,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <configuration defaultExceptionStrategy-ref="Global_Exception_Handler_Strategy" doc:name="Configuration"/>
     <choice-exception-strategy name="Global_Exception_Handler_Strategy">
         <catch-exception-strategy doc:name="Catch Exception Strategy: exception.causedExactlyBy(java.io.IOException)" when="#[exception.causedExactlyBy(java.io.IOException)]">
             <logger level="ERROR" doc:name="log-catch-exception-strategy" message="Catch Exception Strategy: exception.causedBy(java.io.IOException) = #[exception.causedExactlyBy(java.io.IOException)]"/>
@@ -89,12 +90,12 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
             <flow-ref name="exception_handlingFlow-http-exception-handler-response-builder" doc:name="call-set-http-exception-response"/>
         </catch-exception-strategy>
     </choice-exception-strategy>
-    <flow name="exception_handlingFlow" doc:name="exception_handlingFlow">
+    <sub-flow name="exception_handlingFlow" doc:name="exception_handlingFlow">
         <logger message="exception_handlingFlow::start - #[payload]" level="ERROR" doc:name="log-start"/>
         <http:outbound-endpoint exchange-pattern="request-response" host="${http.api.exception.process.host}" port="${http.api.exception.process.port}" path="${http.api.exception.process.path}" method="POST" doc:name="HTTP" contentType="application/json" responseTimeout="${http.api.exception.process.response.timeout}"/>
         <object-to-string-transformer doc:name="Object to String"/>
         <logger message="exception_handlingFlow::end - #[payload]" level="ERROR" doc:name="log-end"/>
-    </flow>
+    </sub-flow>
     <sub-flow name="exception_handlingFlowCatchTransformer" doc:name="exception_handlingFlowCatchTransformer">
         <parse-template location="Exception-process-request.template.json" doc:name="set-request-payload"/>
         <flow-ref name="exception_handlingFlow" doc:name="Flow Reference"/>

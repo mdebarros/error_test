@@ -8,7 +8,7 @@
 				{
 					"cause": 
 					{
-						"detail": "#[flowVars.exceptionCause]"
+						"detail": "#[org.json.simple.JSONObject.escape(flowVars.exceptionCause.toString())]"
 					}
 
 				}
